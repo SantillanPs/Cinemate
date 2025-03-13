@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 
 class TransactionCard extends StatelessWidget {
   final String name;
@@ -20,52 +21,107 @@ class TransactionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    final theme = Theme.of(context);
+
+    return Container(
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surface,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(16),
         child: Row(
           children: [
             // Avatar
-            CircleAvatar(
-              radius: 20,
-              backgroundColor: Colors.blue.withOpacity(0.1),
-              child:
-                  avatarIcon != null
-                      ? Icon(avatarIcon, color: Colors.blue)
-                      : Text(
-                        avatarText ?? '',
-                        style: const TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
+            Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors:
+                      isIncoming
+                          ? [
+                            AppTheme.successColor.withOpacity(0.2),
+                            AppTheme.successColor.withOpacity(0.1),
+                          ]
+                          : [
+                            AppTheme.errorColor.withOpacity(0.2),
+                            AppTheme.errorColor.withOpacity(0.1),
+                          ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                shape: BoxShape.circle,
+              ),
+              child: Center(
+                child:
+                    avatarIcon != null
+                        ? Icon(
+                          avatarIcon,
+                          color:
+                              isIncoming
+                                  ? AppTheme.successColor
+                                  : AppTheme.errorColor,
+                          size: 24,
+                        )
+                        : Text(
+                          avatarText ?? '',
+                          style: TextStyle(
+                            color:
+                                isIncoming
+                                    ? AppTheme.successColor
+                                    : AppTheme.errorColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
                         ),
-                      ),
+              ),
             ),
 
-            const SizedBox(width: 12),
+            const SizedBox(width: 16),
 
             // Name and Time
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    name,
-                    style: const TextStyle(fontWeight: FontWeight.w600),
-                  ),
+                  Text(name, style: theme.textTheme.titleMedium),
+                  const SizedBox(height: 4),
                   Text(
                     time,
-                    style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: theme.colorScheme.onSurface.withOpacity(0.6),
+                    ),
                   ),
                 ],
               ),
             ),
 
             // Amount
-            Text(
-              amount,
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                color: isIncoming ? Colors.green[600] : Colors.red[600],
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                color:
+                    isIncoming
+                        ? AppTheme.successColor.withOpacity(0.1)
+                        : AppTheme.errorColor.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Text(
+                amount,
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color:
+                      isIncoming ? AppTheme.successColor : AppTheme.errorColor,
+                ),
               ),
             ),
           ],

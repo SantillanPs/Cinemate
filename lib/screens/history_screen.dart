@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../widgets/transaction_card.dart';
-import '../theme/app_theme.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});

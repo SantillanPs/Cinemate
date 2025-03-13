@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../widgets/contact_card.dart';
-import '../theme/app_theme.dart';
 
 class SendMoneyScreen extends StatefulWidget {
   const SendMoneyScreen({super.key});
